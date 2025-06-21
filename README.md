@@ -352,9 +352,6 @@ A: Update the categories in `app/data/products.js` and navigation components.
 
 <div align="center">
 
-**Made with ❤️ by the ShopWeb Team**
-
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/shopweb-ecommerce?style=social)](https://github.com/yourusername/shopweb-ecommerce)
-[![GitHub forks](https://img.shields.io/github/forks/yourusername/shopweb-ecommerce?style=social)](https://github.com/yourusername/shopweb-ecommerce)
+**Made with ❤️ by the Mohammed Arif**
 
 </div>

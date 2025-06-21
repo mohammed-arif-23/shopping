@@ -3,13 +3,13 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyBoudCIwdSR4mMZxC6Oob3IRbf720Gw9uU",
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "store-7b1b8.firebaseapp.com",
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "store-7b1b8",
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "store-7b1b8.appspot.com",
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "611617459228",
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:611617459228:web:836debfa4e5d41d45e23d9",
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-NS4SFVYTL4"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY ,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN ,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID ,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET ,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID ,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID ,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID 
 };
 
 // Validate Firebase config
