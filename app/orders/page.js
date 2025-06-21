@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useSearchParams } from "next/navigation"
@@ -20,7 +20,7 @@ const statusConfig = {
   delivered: { color: "bg-green-100 text-green-800", icon: CheckCircle, label: "Delivered" },
 }
 
-export default function OrdersPage() {
+function OrdersPageContent() {
   const { user } = useAuth()
   const searchParams = useSearchParams()
   const [orders, setOrders] = useState([])
@@ -292,5 +292,29 @@ export default function OrdersPage() {
 
       <Footer />
     </div>
+  )
+}
+
+function OrdersPageFallback() {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <div className="pt-20 pb-16">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#222831]"></div>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  )
+}
+
+export default function OrdersPage() {
+  return (
+    <Suspense fallback={<OrdersPageFallback />}>
+      <OrdersPageContent />
+    </Suspense>
   )
 }

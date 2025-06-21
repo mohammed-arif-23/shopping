@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Mail, Lock } from "lucide-react"
@@ -8,7 +8,7 @@ import Header from "../components/Header"
 import Footer from "../components/Footer"
 import { useAuth } from "../context/AuthContext"
 
-export default function LoginPage() {
+function LoginPageContent() {
   const [error, setError] = useState("")
   const [redirectPath, setRedirectPath] = useState("/")
 
@@ -118,5 +118,34 @@ export default function LoginPage() {
 
       <Footer />
     </div>
+  )
+}
+
+function LoginPageFallback() {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <div className="pt-20 pb-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-md mx-auto">
+            <div className="bg-white rounded-lg border border-gray-100 p-8">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#222831] mx-auto mb-4"></div>
+                <p className="text-gray-600">Loading...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<LoginPageFallback />}>
+      <LoginPageContent />
+    </Suspense>
   )
 }

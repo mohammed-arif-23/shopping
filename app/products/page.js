@@ -10,6 +10,7 @@ import { products, categories, brands } from "../data/products"
 import Link from "next/link"
 import Image from "next/image"
 import { Star } from "lucide-react"
+import { useCart } from "../context/CartContext"
 
 function ProductsContent() {
   const searchParams = useSearchParams()
@@ -19,32 +20,44 @@ function ProductsContent() {
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const productsPerPage = 12
+  const { addToCart } = useCart()
+
+  const category = searchParams.get("category") || "all"
 
   useEffect(() => {
-    let filtered = [...products]
+    setLoading(true)
+    // Simulate loading delay
+    setTimeout(() => {
+      let filtered = [...products]
 
-    // Apply sorting
-    switch (sortBy) {
-      case "price-low":
-        filtered.sort((a, b) => a.price - b.price)
-        break
-      case "price-high":
-        filtered.sort((a, b) => b.price - a.price)
-        break
-      case "newest":
-        filtered.sort((a, b) => b.id - a.id)
-        break
-      case "discount":
-        filtered.sort((a, b) => b.discount - a.discount)
-        break
-      default:
-        // Keep original order for 'relevance'
-        break
-    }
+      // Filter by category
+      if (category !== "all") {
+        filtered = filtered.filter(product => product.category === category)
+      }
 
-    setFilteredProducts(filtered)
-    setCurrentPage(1) // Reset to first page when filters change
-  }, [sortBy])
+      // Sort products
+      switch (sortBy) {
+        case "price-low":
+          filtered.sort((a, b) => a.price - b.price)
+          break
+        case "price-high":
+          filtered.sort((a, b) => b.price - a.price)
+          break
+        case "newest":
+          filtered.sort((a, b) => b.id - a.id)
+          break
+        case "discount":
+          filtered.sort((a, b) => b.discount - a.discount)
+          break
+        default:
+          // relevance - keep original order
+          break
+      }
+
+      setFilteredProducts(filtered)
+      setLoading(false)
+    }, 300)
+  }, [category, sortBy])
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage)
@@ -56,6 +69,16 @@ function ProductsContent() {
     setCurrentPage(page)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
+  const handleAddToCart = (product, size = "M") => {
+    addToCart({
+      ...product,
+      size,
+      quantity: 1
+    })
+  }
+
+  const categories = ["all", ...Array.from(new Set(products.map(p => p.category)))]
 
   return (
     <div className="min-h-screen bg-neutral-100">
@@ -219,9 +242,25 @@ function ProductsContent() {
   )
 }
 
+function ProductsPageFallback() {
+  return (
+    <div className="min-h-screen bg-neutral-100">
+      <Header />
+      <main className="pt-32 pb-16">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#222831]"></div>
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  )
+}
+
 export default function ProductsPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<ProductsPageFallback />}>
       <ProductsContent />
     </Suspense>
   )
